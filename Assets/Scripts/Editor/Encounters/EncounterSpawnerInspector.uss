@@ -1,0 +1,57 @@
+.validate-button {
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+.validation-panel {
+    margin-top: 2px;
+}
+
+.validation-status {
+    -unity-font-style: bold;
+    padding-top: 6px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 4px;
+    margin-bottom: 4px;
+}
+
+.status-valid {
+    background-color: #173d25;
+    border-color: #42c86a;
+    color: #b5f7c7;
+}
+
+.status-warning {
+    background-color: #443515;
+    border-color: #e7bc45;
+    color: #ffe9a3;
+}
+
+.status-invalid {
+    background-color: #471d22;
+    border-color: #e15a63;
+    color: #ffc0c4;
+}
+
+.validation-result {
+    white-space: normal;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.severity-error {
+    color: #f08088;
+}
+
+.severity-warning {
+    color: #e7bc45;
+}
+
+.severity-info {
+    color: #a8c8e8;
+}

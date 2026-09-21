@@ -15,3 +15,7 @@ Create an encounter asset from **Assets > Create > Prompt To Playable > Encounte
 ## Runtime encounter spawning
 
 Add `EncounterSpawner` to an encounter GameObject, then assign its `EncounterDefinition`, player, extraction point, and ordered spawn points. At `Start`, it creates a `SpawnedEnemies` child and instantiates each configured entry in round-robin spawn-point order. Entries without a prefab and missing spawn-point references are logged and skipped safely.
+
+## Validation tool
+
+Select the GameObject with `EncounterSpawner` and click **Validate Encounter** in its Inspector. The status box reports **VALID**, **VALID WITH WARNINGS**, or **INVALID**, followed by each finding. It checks required references and enemy entries, spawn-point counts and NavMesh placement, the extraction point, and whether the player has a complete NavMesh path to extraction. When selected, the Scene view shows valid spawn/extraction points in green, invalid ones in red, and the calculated route in cyan (or red when no complete route exists).
