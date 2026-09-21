@@ -11,3 +11,7 @@ The command is intentionally destructive to the contents of `Arena.unity`; confi
 ## Encounter data
 
 Create an encounter asset from **Assets > Create > Prompt To Playable > Encounters > Encounter Definition**. Give it a display name, then add one or more enemy spawn entries. Each entry takes one enemy prefab and a count from 1 to 10. This asset is data-only: it does not refer to scene objects or spawn enemies by itself.
+
+## Runtime encounter spawning
+
+Add `EncounterSpawner` to an encounter GameObject, then assign its `EncounterDefinition`, player, extraction point, and ordered spawn points. At `Start`, it creates a `SpawnedEnemies` child and instantiates each configured entry in round-robin spawn-point order. Entries without a prefab and missing spawn-point references are logged and skipped safely.
