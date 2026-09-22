@@ -1,21 +1,80 @@
 # Prompt To Playable
 
-## Minimal arena setup
+A small Unity 6 prototype exploring how far a terminal-first, AI-assisted workflow can go when turning a simple game idea into a playable scene.
 
-The project includes `Tools > Prompt To Playable > Build Minimal Arena` in the Unity Editor.
+The goal was not to build a complete game. It was to test a focused question:
 
-Run this command to replace `Assets/Scenes/Arena.unity` with the prototype arena. It creates a dark, primitive-only URP arena with cyan floor accents, a player placeholder, a green extraction point, and three spawn markers. It also adds and bakes a `NavMeshSurface` that collects only the arena floor, providing the NavMesh required by the upcoming encounter validation.
+> Can a lightweight encounter prototype be created, validated, and iterated on through Unity CLI + Codex?
 
-The command is intentionally destructive to the contents of `Arena.unity`; confirm its dialog only when that scene may be replaced. AI Navigation `2.0.14` and URP `17.6.0` are already declared in `Packages/manifest.json`.
+The result is a minimal playable arena containing:
 
-## Encounter data
+- A player placeholder
+- An extraction point
+- Configurable enemy spawn locations
+- Data-driven encounter definitions
+- Runtime encounter spawning
+- An in-Editor validation tool for checking the setup
 
-Create an encounter asset from **Assets > Create > Prompt To Playable > Encounters > Encounter Definition**. Give it a display name, then add one or more enemy spawn entries. Each entry takes one enemy prefab and a count from 1 to 10. This asset is data-only: it does not refer to scene objects or spawn enemies by itself.
+## Why this exists
 
-## Runtime encounter spawning
+Most game prototypes begin with manual setup across scenes, GameObjects, components, and Inspector references. That is flexible, but repetitive setup can also be slow and error-prone.
 
-Add `EncounterSpawner` to an encounter GameObject, then assign its `EncounterDefinition`, player, extraction point, and ordered spawn points. At `Start`, it creates a `SpawnedEnemies` child and instantiates each configured entry in round-robin spawn-point order. Entries without a prefab and missing spawn-point references are logged and skipped safely.
+This project explores a different workflow: describe the intended feature, use an AI-assisted terminal workflow to help create the implementation, and verify the result inside Unity.
 
-## Validation tool
+The important part is not that AI generated code. The important part is that the output can be inspected, run, and validated in a real Unity project.
 
-Select the GameObject with `EncounterSpawner` and click **Validate Encounter** in its Inspector. The status box reports **VALID**, **VALID WITH WARNINGS**, or **INVALID**, followed by each finding. It checks required references and enemy entries, spawn-point counts and NavMesh placement, the extraction point, and whether the player has a complete NavMesh path to extraction. When selected, the Scene view shows valid spawn/extraction points in green, invalid ones in red, and the calculated route in cyan (or red when no complete route exists).
+## What it does
+
+The prototype creates a small arena with a player start, extraction zone, and enemy spawn points.
+
+Encounter data lives in a reusable `EncounterDefinition` asset. An `EncounterSpawner` reads that asset at runtime and creates the configured enemies across the assigned spawn points.
+
+The custom Inspector includes a **Validate Encounter** button. It checks the references and scene setup, including:
+
+- Player and extraction references
+- Encounter and enemy prefab entries
+- Spawn-point configuration
+- NavMesh placement
+- Whether the player has a complete NavMesh route to extraction
+
+The validator reports one of three states:
+
+- `VALID`
+- `VALID WITH WARNINGS`
+- `INVALID`
+
+It also visualizes valid points, invalid points, and the calculated route in the Scene view.
+
+## Tech
+
+- Unity 6
+- Universal Render Pipeline (URP)
+- AI Navigation / NavMesh
+- Unity CLI
+- Codex
+
+## Project structure
+
+```text
+Assets/
+  Editor/         # Arena builder and encounter validation tooling
+  Scripts/        # Runtime spawning and encounter data
+  Scenes/         # Prototype arena
+```
+
+## Try it
+
+1. Open the project with the Unity version specified in `ProjectSettings/ProjectVersion.txt`.
+2. Open `Assets/Scenes/Arena.unity`.
+3. Select the GameObject that contains `EncounterSpawner`.
+4. Assign an `EncounterDefinition`, player, extraction point, and spawn points.
+5. Click **Validate Encounter** in the Inspector.
+6. Enter Play mode to test runtime spawning.
+
+> The menu command `Tools > Prompt To Playable > Build Minimal Arena` replaces `Assets/Scenes/Arena.unity`. Use it only when you are happy for that scene to be regenerated.
+
+## Status
+
+This is an experimental prototype, not a production-ready game framework.
+
+It is intentionally small: the repository exists to document the workflow, show the resulting Unity setup, and provide a concrete starting point for further experiments.
